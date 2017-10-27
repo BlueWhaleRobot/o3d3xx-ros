@@ -3,13 +3,13 @@
   <!-- Command-line arguments -->
   <arg name="ns" default="o3d3xx"/>
   <arg name="nn" default="camera"/>
-  <arg name="ip" default="192.168.0.69"/>
+  <arg name="ip" default="169.254.99.35"/>
   <arg name="xmlrpc_port" default="80"/>
   <arg name="password" default=""/>
-  <arg name="schema_mask" default="15"/>
+  <arg name="schema_mask" default="8"/>
   <arg name="timeout_millis" default="500"/>
   <arg name="timeout_tolerance_secs" default="5.0"/>
-  <arg name="publish_viz_images" default="true"/>
+  <arg name="publish_viz_images" default="false"/>
   <arg name="frame_id_base" default="$(arg ns)/$(arg nn)" />
   <arg name="respawn" default="false"/>
   <arg name="assume_sw_triggered" default="false"/>
@@ -66,6 +66,8 @@
       <remap from="Config" to="$(arg nn)/Config"/>
       <remap from="Rm" to="$(arg nn)/Rm"/>
       <remap from="Trigger" to="$(arg nn)/Trigger"/>
+
+      <rosparam file="$(find o3d3xx)/launch/occupancy_xyz.yaml" command="load" />
 
     </node>
 

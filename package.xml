@@ -9,7 +9,8 @@
   <author email="tom@loveparkrobotics.com">Tom Panzarella</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-
+  <build_depend>pcl_conversions</build_depend>
+  
   <depend>image_transport</depend>
   <depend>pcl_ros</depend>
   <depend>cv_bridge</depend>

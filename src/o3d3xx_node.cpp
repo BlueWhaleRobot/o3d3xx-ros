@@ -39,6 +39,7 @@
 #include <o3d3xx/Rm.h>
 #include <o3d3xx/Extrinsics.h>
 #include <o3d3xx/Trigger.h>
+#include "occupancy_xyz.hpp"
 
 class O3D3xxNode
 {
@@ -144,6 +145,8 @@ public:
       ("Trigger", std::bind(&O3D3xxNode::Trigger, this,
                             std::placeholders::_1,
                             std::placeholders::_2));
+
+    this->my_OccupancyXyz_= OccupancyXyz();
   }
 
   /**
@@ -170,6 +173,8 @@ public:
     ros::Time last_frame = ros::Time::now();
 
     bool got_uvec = false;
+
+    this->my_OccupancyXyz_.onInit();
 
     while (ros::ok())
     {
@@ -243,6 +248,12 @@ public:
       pcl::copyPointCloud(*(buff->Cloud().get()), *cloud);
       cloud->header = pcl_conversions::toPCL(head);
       this->cloud_pub_.publish(cloud);
+
+      sensor_msgs::PointCloud2::Ptr temp_cloud_ptr(new sensor_msgs::PointCloud2);
+      pcl::toROSMsg(*cloud, *temp_cloud_ptr);
+      //change cloud to kinect occupancy messages
+
+      this->my_OccupancyXyz_.depthCb(temp_cloud_ptr);
 
       depth_img = buff->DepthImage();
       sensor_msgs::ImagePtr depth =
@@ -509,6 +520,8 @@ private:
   ros::ServiceServer config_srv_;
   ros::ServiceServer rm_srv_;
   ros::ServiceServer trigger_srv_;
+
+  OccupancyXyz my_OccupancyXyz_;
 
 }; // end: class O3D3xxNode
 

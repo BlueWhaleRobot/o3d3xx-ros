@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
              tf
              message_generation
              message_runtime
+             pcl_conversions
              )
 
 #######################################
