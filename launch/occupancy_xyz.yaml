@@ -11,16 +11,16 @@ gridHeight: 2.0
 usingWidth: 0.175
 
 #the start height length of kinect must seen area
-usingHeight_down: 0.35
+usingHeight_down: 0.20
 
 #the end height length of kinect must seen area
-usingHeight_up: 0.50
+usingHeight_up: 0.4
 
 #kinect install height beside floor
-kinectHeight: 0.37
+kinectHeight: 0.39
 
 #min bar height
-barHeight_min: 0.07
+barHeight_min: 0.06
 
 #max bar height
 barHeight_max: 0.5
@@ -32,7 +32,7 @@ point_mode: 0
 frame_id: kinect_link_new
 
 # transform rotation matrix
-R: [0.98165938, -0., 0.19064327, 0., 1., 0., -0.19064327, 0., 0.98165938]
+R: [0.9193146, -0., 0.39352339, 0., 1., 0., -0.39352339, 0., 0.9193146]
 
 # transform trasition vector
 T: [0.,0.,0.]

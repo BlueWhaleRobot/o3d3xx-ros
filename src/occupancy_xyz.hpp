@@ -336,9 +336,22 @@ void OccupancyXyz::convert2(const sensor_msgs::PointCloud2::Ptr& Incloud_msg,Poi
       z=*iter_z;
 
       //地板扣除 障碍物识别
-     if(z< barHeight_max_)
+      float barHeight_min_temp,barHeight_max_temp;
+      barHeight_max_temp = barHeight_max_;
+      barHeight_min_temp = barHeight_min_;
+
+      if(x>0.7)
+      {
+        barHeight_min_temp = barHeight_min_+x*0.07;
+      }
+      if(x<1.0)
+      {
+        barHeight_max_temp = barHeight_max_*0.5;
+      }
+
+     if(z< barHeight_max_temp)
      {
-       if(z< barHeight_min_)
+       if(z< barHeight_min_temp)
        {
          //地板
          if(point_mode_==1)
@@ -388,7 +401,7 @@ void OccupancyXyz::convert2(const sensor_msgs::PointCloud2::Ptr& Incloud_msg,Poi
     index_temp1=*it;
     if(mapGrid_[index_temp1]<0) //mapGrid_[index_temp1]=100;
     {
-      filter_mapGrid_[index_temp1]-=1;
+      filter_mapGrid_[index_temp1]-=2;
       if(filter_mapGrid_[index_temp1]<-10) filter_mapGrid_[index_temp1]=-10;
     }
     else
@@ -403,14 +416,22 @@ void OccupancyXyz::convert2(const sensor_msgs::PointCloud2::Ptr& Incloud_msg,Poi
   }
   //更新梯度
   int sum_nums=height_temp_*2*width_temp_;
-
+  int temp_index=-1;
   for(std::vector<int>::iterator it = seenGrid_indexs_.begin() ; it !=seenGrid_indexs_.end() ; it++)
   {
+    temp_index++;
     float delta_z=0;
     index_temp1=*it;
 
-
     if(ZGrid2_[index_temp1]<0 || mapGrid_[index_temp1]>10 ) continue;
+
+    //梯度检测范围
+    PP=gridCenters_[temp_index];
+    if(PP[0] > 0.7)
+    {
+      continue;
+    }
+
     //y_num=index_temp1/(height_temp_);
     x_num=index_temp1%height_temp_;
     // ROS_INFO("get the floor %d \n",ZGrid_[index_temp1]);
